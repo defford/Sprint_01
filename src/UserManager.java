@@ -3,9 +3,9 @@ public class UserManager {
     private int count = 0;
 
     public boolean addUser(String name) {
-        // Check if user already exists
+        // Check if user already exists (case-insensitive)
         for (int i = 0; i < count; i++) {
-            if (users[i].getName().equals(name)) {
+            if (users[i].getName().equalsIgnoreCase(name)) {
                 return false; // User already exists
             }
         }
@@ -23,7 +23,7 @@ public class UserManager {
 
     public User getUser(String name) {
         for (int i = 0; i < count; i++) {
-            if (users[i].getName().equals(name)) {
+            if (users[i].getName().equalsIgnoreCase(name)) {
                 return users[i];
             }
         }
@@ -32,11 +32,54 @@ public class UserManager {
 
     public void listUsers() {
         if (count == 0) {
-            System.out.println("(no users)");
+            printBoxed("(no users)");
         } else {
+            StringBuilder userList = new StringBuilder();
             for (int i = 0; i < count; i++) {
-                System.out.println(users[i].getName());
+                if (i > 0) {
+                    userList.append("\n");
+                }
+                userList.append(users[i].getName());
+            }
+            printBoxed("Registered Users:\n" + userList.toString());
+        }
+    }
+    
+    // Helper method to create boxed output
+    private static void printBoxed(String message) {
+        String[] lines = message.split("\n");
+        int maxLength = 0;
+        
+        // Find the longest line
+        for (String line : lines) {
+            if (line.length() > maxLength) {
+                maxLength = line.length();
             }
         }
+        
+        // Create top border
+        System.out.print("╔");
+        for (int i = 0; i < maxLength + 2; i++) {
+            System.out.print("═");
+        }
+        System.out.println("╗");
+        
+        // Print each line with side borders
+        for (String line : lines) {
+            System.out.print("║ ");
+            System.out.print(line);
+            // Add padding to align right border
+            for (int i = line.length(); i < maxLength; i++) {
+                System.out.print(" ");
+            }
+            System.out.println(" ║");
+        }
+        
+        // Create bottom border
+        System.out.print("╚");
+        for (int i = 0; i < maxLength + 2; i++) {
+            System.out.print("═");
+        }
+        System.out.println("╝");
     }
 } 

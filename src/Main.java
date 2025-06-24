@@ -1,11 +1,49 @@
 import java.util.Scanner;
 
 public class Main {
+    
+    // Helper method to create boxed output
+    private static void printBoxed(String message) {
+        String[] lines = message.split("\n");
+        int maxLength = 0;
+        
+        // Find the longest line
+        for (String line : lines) {
+            if (line.length() > maxLength) {
+                maxLength = line.length();
+            }
+        }
+        
+        // Create top border
+        System.out.print("╔");
+        for (int i = 0; i < maxLength + 2; i++) {
+            System.out.print("═");
+        }
+        System.out.println("╗");
+        
+        // Print each line with side borders
+        for (String line : lines) {
+            System.out.print("║ ");
+            System.out.print(line);
+            // Add padding to align right border
+            for (int i = line.length(); i < maxLength; i++) {
+                System.out.print(" ");
+            }
+            System.out.println(" ║");
+        }
+        
+        // Create bottom border
+        System.out.print("╚");
+        for (int i = 0; i < maxLength + 2; i++) {
+            System.out.print("═");
+        }
+        System.out.println("╝");
+    }
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         UserManager userManager = new UserManager();
         
-        System.out.println("Welcome to the To-Do List Manager!");
+        printBoxed("Welcome to the To-Do List Manager!");
         
         while (true) {
             System.out.println("\nMain Menu:");
@@ -23,14 +61,13 @@ public class Main {
                         System.out.print("Enter user name: ");
                         String name = in.nextLine().trim();
                         if (userManager.addUser(name)) {
-                            System.out.println("User '" + name + "' added successfully.");
+                            printBoxed("✓ User '" + name + "' added successfully.");
                         } else {
-                            System.out.println("Failed to add user. User may already exist or capacity reached.");
+                            printBoxed("✗ Failed to add user. User may already exist or capacity reached.");
                         }
                         break;
                         
                     case 2:
-                        System.out.println("Registered users:");
                         userManager.listUsers();
                         break;
                         
@@ -41,21 +78,21 @@ public class Main {
                         if (user != null) {
                             userMenu(user, in);
                         } else {
-                            System.out.println("User not found.");
+                            printBoxed("✗ User not found.");
                         }
                         break;
                         
                     case 4:
-                        System.out.println("Goodbye!");
+                        printBoxed("Goodbye! Thanks for using To-Do List Manager!");
                         in.close();
                         return;
                         
                     default:
-                        System.out.println("Invalid option. Please choose 1-4.");
+                        printBoxed("✗ Invalid option. Please choose 1-4.");
                         break;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                printBoxed("✗ Please enter a valid number.");
             }
         }
     }
@@ -77,7 +114,7 @@ public class Main {
                         System.out.print("Enter task description: ");
                         String description = in.nextLine().trim();
                         user.addTask(description);
-                        System.out.println("Task added successfully.");
+                        printBoxed("✓ Task added successfully.");
                         break;
                         
                     case 2:
@@ -86,7 +123,7 @@ public class Main {
                             int taskIndex = Integer.parseInt(in.nextLine().trim());
                             user.completeTask(taskIndex);
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid task number.");
+                            printBoxed("✗ Please enter a valid task number.");
                         }
                         break;
                         
@@ -98,11 +135,11 @@ public class Main {
                         return; // Back to main menu
                         
                     default:
-                        System.out.println("Invalid option. Please choose 1-4.");
+                        printBoxed("✗ Invalid option. Please choose 1-4.");
                         break;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                printBoxed("✗ Please enter a valid number.");
             }
         }
     }
