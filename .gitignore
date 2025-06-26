@@ -1,6 +1,5 @@
 #Ignore cursor AI rules
 .cursor/rules/codacy.mdc
-*.md
 
 # Compiled class files
 *.class
