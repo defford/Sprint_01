@@ -1,9 +1,9 @@
 public class Task {
     private String description;
-    private boolean done; // false by default
+    private boolean done;
 
-    public Task(String desc) {
-        this.description = desc;
+    public Task(String description) {
+        this.description = description;
     }
 
     public void markDone() {
